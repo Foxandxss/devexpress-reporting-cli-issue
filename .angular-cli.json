@@ -21,7 +21,10 @@
       "styles": [
         "styles.css"
       ],
-      "scripts": [],
+      "scripts": [
+        "../node_modules/cldrjs/dist/cldr.js",
+        "../node_modules/globalize/dist/globalize.js"
+      ],
       "environmentSource": "environments/environment.ts",
       "environments": {
         "dev": "environments/environment.ts",

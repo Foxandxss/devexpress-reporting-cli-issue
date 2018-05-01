@@ -1,27 +1,32 @@
-# ExportsRepro
+# Devexpress reporting issue with CLI
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.7.3.
+To try, just `ng serve` and check the console. It should show a html.
 
-## Development server
+To try the issue, do a `npm run build`.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+At first, you will see a:
 
-## Code scaffolding
+```
+WARNING in ./src/app/app.component.ts
+5:20-27 "export 'Html' (imported as 'dr') was not found in 'devexpress-reporting/dx-web-document-viewer'
+```
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+If you go to dist and run it (http-server or something) you get a:
 
-## Build
+`Uncaught TypeError: Cannot assign to read only property 'exports' of object '[object Object]'`
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `-prod` flag for a production build.
+Digging, if we open `node_modules/devexpress-reporting/dx-web-document-viewer` and we change:
 
-## Running unit tests
+```
+module.exports = { DevExpress: DevExpress, Html: Html };
+```
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+For:
 
-## Running end-to-end tests
+```
+exports.foo = { DevExpress: DevExpress, Html: Html };
+```
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+With the appropiate changes in the code for this new export, it won't fail anymore.
 
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+Now, if instead of making this change we do a `ng build --prod --buildOptimizer false` it won't fail.

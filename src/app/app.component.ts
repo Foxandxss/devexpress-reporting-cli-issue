@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import * as dr from 'devexpress-reporting/dx-web-document-viewer';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +7,10 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'app';
+  title = 'a';
+  html = dr.Html;
+
+  constructor() {
+    console.log(this.html);
+  }
 }
